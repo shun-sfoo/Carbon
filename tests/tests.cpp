@@ -1,15 +1,38 @@
+#include <ParameterCrop.hpp>
 #include <catch2/catch_test_macros.hpp>
-#include <neo.hpp>
 
-unsigned int Factorial(unsigned int number) {
-  return number <= 1 ? number : Factorial(number - 1) * number;
+TEST_CASE("Slot", "[is_subset_of]") {
+  REQUIRE(is_subset_of<std::tuple<>, std::tuple<>>::value);
+  REQUIRE(
+      is_subset_of<std::tuple<int, char>, std::tuple<int, char, double>>::value);
+  REQUIRE_FALSE(
+      is_subset_of<std::tuple<int, char>, std::tuple<char, double>>::value);
 }
 
-TEST_CASE("Factorials are computed", "[factorial]") {
-  REQUIRE(Factorial(1) == 1);
-  REQUIRE(Factorial(2) == 2);
-  REQUIRE(Factorial(3) == 6);
-  REQUIRE(Factorial(10) == 3628800);
+TEST_CASE("Slot", "[find_next_index]") {
+  REQUIRE(find_next_index<1, int, std::tuple<int, char, double, int>>::value ==
+          3);
 }
 
-TEST_CASE("template", "[example]") { REQUIRE(binary<101>::value == 5); }
+struct Key {
+  int value = 10;
+};
+
+TEST_CASE("Slot", "[tuple take1]") {
+  int result = 0;
+  std::function<void(int, char, Key)> func = [&](int a, char b, Key key) {
+    result += a + b + key.value;
+  };
+  std::tuple<int, int, char, int, float, Key> args = {1, 2, 10, 4, 3.0f, Key()};
+  TupleTake(func, args);
+  REQUIRE(result == 21);
+}
+
+TEST_CASE("Slot", "[tuple take2]") {
+  int result = 0;
+  std::function<void(char, int)> func = [&](char a, int b) { result += a + b; };
+
+  std::tuple<int, int, char> args = {1, 2, 'a'};
+  TupleTake(func, args);
+  REQUIRE(result == 0);
+}
