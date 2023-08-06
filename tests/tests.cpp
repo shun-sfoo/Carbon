@@ -1,3 +1,4 @@
+#include <Event1.hpp>
 #include <EventHandler.hpp>
 #include <ParameterCrop.hpp>
 #include <catch2/catch_test_macros.hpp>
@@ -68,4 +69,42 @@ TEST_CASE("Slot", "[event handler 1]") {
   handler = &func2;
   (*handler)(1, 10);
   REQUIRE(e == 24);
+}
+
+int e1 = 0;
+
+void addTwo(int x, int y) { e1 += x + y; }
+
+class ButtonTwo {
+public:
+  void add(int a) { e1 += a; }
+
+  Event<int, int> Clicked;
+};
+
+class Label {
+public:
+  void add(int a) { e1 += a; }
+};
+
+TEST_CASE("Slot", "[event 1]") {
+  ButtonTwo *button = new ButtonTwo();
+  Label *label = new Label();
+  button->Clicked.Attach(addTwo);
+  button->Clicked.Attach(button, &ButtonTwo::add);
+  button->Clicked.Attach(label, [](int x, int y) { e1 += x + y; });
+  // run addtow() add()  label ()   e1 += 1 + 2, 1, 1 + 2 = 7
+  button->Clicked(1, 2);
+  REQUIRE(e1 == 7);
+  button->Clicked.Detach(addTwo);
+  button->Clicked(1, 2); //  run add() label()  e1 = 7 += 1, 1+2 = 11
+  REQUIRE(e1 == 11);
+  button->Clicked.Detach(button, &ButtonTwo::add);
+  button->Clicked(1, 2); //  run label()  e1 = 11 += 1 + 2 = 14
+  REQUIRE(e1 == 14);
+  button->Clicked.Clear();
+  button->Clicked(1, 2); // no function e1 = 14;
+  REQUIRE(e1 == 14);
+  delete button;
+  delete label;
 }
