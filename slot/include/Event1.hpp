@@ -1,7 +1,7 @@
 #pragma once
 
-#include <EventHandler.hpp>
-#include <functional>
+#include "EventHandler.hpp"
+
 #include <map>
 #include <mutex>
 #include <shared_mutex>

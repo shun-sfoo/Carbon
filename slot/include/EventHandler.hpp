@@ -1,6 +1,5 @@
 #pragma once
-#include <ParameterCrop.hpp>
-#include <functional>
+#include "ParameterCrop.hpp"
 
 // 函数类型擦除相关
 template <typename... Args> class EventHandlerInterface {
