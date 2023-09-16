@@ -1,18 +1,19 @@
+#include "logger.h"
 #include <cstdio>
 #include <mutex>
 
 std::mutex mtx;
 int main() {
   if (mtx.try_lock()) {
-    printf("succeed\n");
+    INFO("succeed");
   } else {
-    printf("failed\n");
+    INFO("failed");
   }
 
   if (mtx.try_lock()) {
-    printf("succeed\n");
+    INFO("succeed");
   } else {
-    printf("failed\n");
+    INFO("failed");
   }
 
   mtx.unlock();

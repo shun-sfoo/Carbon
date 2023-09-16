@@ -1,3 +1,4 @@
+#include "logger.h"
 #include <atomic>
 #include <ios>
 #include <iostream>
@@ -14,18 +15,18 @@ int main() {
   // 相等，则把val写入原子变量
   // old传入的其实是一个引用
   bool equal = counter.compare_exchange_strong(old, 3);
-  std::cout << "equal=" << equal << std::endl;
-  std::cout << "old=" << old << std::endl;
+  INFO("equal={}", equal);
+  INFO("old={}", old);
 
   int now = counter.load();
-  std::cout << "cnt=" << now << std::endl;
+  INFO("cnt={}", now);
 
   old = 2;
   equal = counter.compare_exchange_strong(old, 3);
-  std::cout << "equal=" << equal << std::endl;
-  std::cout << "old=" << old << std::endl;
+  INFO("equal={}", equal);
+  INFO("old={}", old);
 
   now = counter.load();
-  std::cout << "cnt=" << now << std::endl;
+  INFO("cnt={}", now);
   return 0;
 }

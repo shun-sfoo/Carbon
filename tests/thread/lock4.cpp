@@ -1,3 +1,4 @@
+#include "logger.h"
 #include <mutex>
 #include <thread>
 #include <vector>
@@ -15,12 +16,12 @@ int main() {
       // 指定了 std::defer_lock 不会在构造器中调用mtx.lock()
       // 需要之后再手动调用grd.lock才能上锁
       std::unique_lock grd(mtx, std::defer_lock);
-      printf("before the lock\n");
+      INFO("before the lock");
       grd.lock();
       arr.push_back(2);
       // 好处依然是即使忘记grd.unlock()也能够自动调用mtx.unlock()
       grd.unlock();
-      printf("outside of lock\n");
+      INFO("outside of lock");
     }
   });
   t1.join();

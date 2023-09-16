@@ -1,5 +1,5 @@
+#include "logger.h"
 #include <atomic>
-#include <iostream>
 #include <thread>
 #include <vector>
 
@@ -27,6 +27,6 @@ int main() {
   t1.join();
   t2.join();
 
-  std::cout << data[10000] << std::endl;
+  INFO("{}", data[10000]);
   return 0;
 }

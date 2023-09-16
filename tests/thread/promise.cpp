@@ -3,20 +3,21 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include "logger.h"
 
 int download(std::string file) {
   for (int i = 0; i < 10; i++) {
-    std::cout << "Downloading " << file << " (" << i * 10 << "%)" << std::endl;
+    INFO("Downloading {} ({}%)", file, i * 10);
     std::this_thread::sleep_for(std::chrono::milliseconds(400));
   }
-  std::cout << "Download complete: " << file << std::endl;
+  INFO("Download complete: {}", file);
   return 404;
 }
 
 void interact() {
   std::string name;
   std::cin >> name;
-  std::cout << "Hi, " << name << std::endl;
+  INFO("Hi, {}", name);
 }
 
 // 如果不想让 std::async 帮你自动创建线程，
@@ -33,7 +34,7 @@ int main() {
 
   interact();
   int ret = fret.get(); // get() 可以等待并获取线程返回值
-  std::cout << "Download result: " << ret << std::endl;
+  INFO("Download result: {}", ret);
   t1.join();
   return 0;
 }

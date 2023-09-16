@@ -1,4 +1,4 @@
-
+#include "logger.h"
 #include <chrono>
 #include <future>
 #include <iostream>
@@ -6,17 +6,17 @@
 #include <thread>
 int download(std::string file) {
   for (int i = 0; i < 10; i++) {
-    std::cout << "Downloading " << file << " (" << i * 10 << "%)" << std::endl;
+    INFO("Downloading {} ({}%)", file, i * 10);
     std::this_thread::sleep_for(std::chrono::milliseconds(400));
   }
-  std::cout << "Download complete: " << file << std::endl;
+  INFO("Download complete: {}", file);
   return 404;
 }
 
 void interact() {
   std::string name;
   std::cin >> name;
-  std::cout << "Hi, " << name << std::endl;
+  INFO("Hi, {}", name)
 }
 
 // 这种写法，download 的执行仍在主线程中，
@@ -33,6 +33,6 @@ int main() {
 
   // lambda 函数体内的运算推迟到 future 的 get() 被调用时。
   int ret = fret.get();
-  std::cout << "Download result: " << ret << std::endl;
+  INFO("Download result: {}", ret);
   return 0;
 }

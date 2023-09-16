@@ -1,6 +1,6 @@
+#include "logger.h"
 #include <chrono>
 #include <condition_variable>
-#include <iostream>
 #include <mutex>
 #include <thread>
 
@@ -13,12 +13,12 @@ int main() {
     std::unique_lock lck(mtx);
     // wait会让当前线程陷入等待
     cv.wait(lck);
-    std::cout << "t1 is awake" << std::endl;
+    INFO("t1 is awake");
   });
 
   std::this_thread::sleep_for(std::chrono::milliseconds(400));
 
-  std::cout << "notifying..." << std::endl;
+  INFO("notifying...");
   // 会唤醒陷入等待的线程
   cv.notify_one(); // will awake t1
 

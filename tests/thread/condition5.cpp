@@ -1,6 +1,6 @@
+#include "logger.h"
 #include <condition_variable>
 #include <initializer_list>
-#include <iostream>
 #include <iterator>
 #include <mutex>
 #include <thread>
@@ -52,14 +52,14 @@ int main() {
   std::thread t1([&] {
     for (int i = 0; i < 2; i++) {
       auto food = foods.pop();
-      std::cout << "t1 got food:" << food << std::endl;
+      INFO("t1 got food:{}", food);
     }
   });
 
   std::thread t2([&] {
     for (int i = 0; i < 2; i++) {
       auto food = foods.pop();
-      std::cout << "t2 got food:" << food << std::endl;
+      INFO("t2 got food:{}", food);
     }
   });
 

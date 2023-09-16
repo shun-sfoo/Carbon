@@ -1,5 +1,5 @@
+#include "logger.h"
 #include <atomic>
-#include <iostream>
 #include <thread>
 
 int main() {
@@ -23,6 +23,6 @@ int main() {
 
   // store 对应于 =
   // 用于 读取
-  std::cout << counter.load() << std::endl;
+  INFO("{}", counter.load());
   return 0;
 }

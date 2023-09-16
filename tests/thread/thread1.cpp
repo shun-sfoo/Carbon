@@ -1,3 +1,4 @@
+#include "logger.h"
 #include <chrono>
 #include <iostream>
 #include <string>
@@ -5,6 +6,7 @@
 #include <vector>
 
 std::vector<std::thread> pool;
+using namespace carbon;
 
 void time1() {
   auto t0 = std::chrono::steady_clock::now();
@@ -23,8 +25,8 @@ void spend() {
       std::chrono::duration_cast<std::chrono::milliseconds>(dt).count();
   using double_ms = std::chrono::duration<double, std::milli>;
   double dms = std::chrono::duration_cast<double_ms>(dt).count();
-  std::cout << "time elapsed: " << ms << " ms" << std::endl;
-  std::cout << "time elapsed: " << dms << " ms" << std::endl;
+  INFO("time elapsed: {}", ms);
+  INFO("time elapsed: {}", dms);
 }
 
 void sleep1() { std::this_thread::sleep_for(std::chrono::milliseconds(400)); }
@@ -35,17 +37,18 @@ void sleep2() {
 }
 
 void download(std::string file) {
+  LOG_LEVEL_INFO;
   for (int i = 0; i < 10; i++) {
-    std::cout << "Downloading " << file << " (" << i * 10 << "%)" << std::endl;
+    INFO("Downloading {} ({}%)", file, i * 10);
     std::this_thread::sleep_for(std::chrono::milliseconds(400));
   }
-  std::cout << "Download complete: " << file << std::endl;
+  INFO("Download complete: {}", file);
 }
 
 void interact() {
   std::string name;
   std::cin >> name;
-  std::cout << "Hi, " << name << std::endl;
+  INFO("Hi, {}", name);
 }
 
 void myfunc() {
@@ -54,6 +57,7 @@ void myfunc() {
 }
 
 int main() {
+  ONLY_TO_CONSOLE;
   myfunc();
   interact();
   for (auto &t : pool) {

@@ -1,6 +1,6 @@
+#include "logger.h"
 #include <chrono>
 #include <condition_variable>
-#include <iostream>
 #include <mutex>
 #include <thread>
 #include <vector>
@@ -21,7 +21,7 @@ int main() {
       auto food = foods.back();
       foods.pop_back();
       lck.unlock();
-      std::cout << "t1 got food:" << food << std::endl;
+      INFO("t1 got food:{}", food);
     }
   });
 
@@ -33,7 +33,7 @@ int main() {
       auto food = foods.back();
       foods.pop_back();
       lck.unlock();
-      std::cout << "t2 got food:" << food << std::endl;
+      INFO("t2 got food:{}", food);
     }
   });
 

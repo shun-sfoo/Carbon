@@ -21,6 +21,8 @@ public:
   }
   // TODO: copy assigned constroctor, copy assigned operator
 
+  ~CapiWidget() { delete screenImage; }
+
 public:
   void paintEvent(QPaintEvent *event) override {
     QPainter painter(this);
@@ -50,7 +52,7 @@ public:
       m_status = MouseStatus::Capturing;
       currX = event->pos().x();
       currY = event->pos().y();
-        //TODO: notice last position
+      // TODO: notice last position
       startX = currX;
       startY = currY;
       qDebug("mousePressEvent: x = %d, y = %d", currX, currY);

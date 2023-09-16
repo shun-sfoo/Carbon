@@ -1,3 +1,4 @@
+#include "logger.h"
 #include <iostream>
 #include <mutex>
 #include <shared_mutex>
@@ -42,6 +43,6 @@ int main() {
   t1.join();
   t2.join();
 
-  std::cout << arr.size() << std::endl;
+  INFO("{}", arr.size());
   return 0;
 }

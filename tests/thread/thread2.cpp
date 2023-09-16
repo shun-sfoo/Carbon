@@ -1,3 +1,4 @@
+#include "logger.h"
 #include <chrono>
 #include <iostream>
 #include <thread>
@@ -21,16 +22,16 @@ ThreadPool tpool;
 
 void download(std::string file) {
   for (int i = 0; i < 10; i++) {
-    std::cout << "Downloading " << file << " (" << i * 10 << "%)" << std::endl;
+    INFO("Downloading {} ({}%)", file, i * 10);
     std::this_thread::sleep_for(std::chrono::milliseconds(400));
   }
-  std::cout << "Download complete: " << file << std::endl;
+  INFO("Download complete: {}", file);
 }
 
 void interact() {
   std::string name;
   std::cin >> name;
-  std::cout << "Hi, " << name << std::endl;
+  INFO("Hi, {}", name);
 }
 
 void myfunc() {

@@ -1,6 +1,6 @@
+#include "logger.h"
 #include <chrono>
 #include <condition_variable>
-#include <iostream>
 #include <mutex>
 #include <thread>
 
@@ -13,27 +13,27 @@ int main() {
     std::unique_lock lck(mtx);
     // wait的过程中会暂时unlock这个锁
     cv.wait(lck);
-    std::cout << "t1 is awake" << std::endl;
+    INFO("t1 is awake");
   });
 
   std::thread t2([&] {
     std::unique_lock lck(mtx);
     cv.wait(lck);
-    std::cout << "t2 is awake" << std::endl;
+    INFO("t2 is awake")
   });
 
   std::thread t3([&] {
     std::unique_lock lck(mtx);
     cv.wait(lck);
-    std::cout << "t3 is awake" << std::endl;
+    INFO("t3 is awake")
   });
 
   std::this_thread::sleep_for(std::chrono::milliseconds(400));
-  std::cout << "notifying neo" << std::endl;
+  INFO("notifying neo")
   cv.notify_one(); // useless now, since ready = false
 
   std::this_thread::sleep_for(std::chrono::milliseconds(400));
-  std::cout << "notifying all" << std::endl;
+  INFO("notifying all")
   cv.notify_all();
 
   t1.join();

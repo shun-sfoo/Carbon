@@ -1,3 +1,4 @@
+#include "logger.h"
 #include <mutex>
 #include <thread>
 #include <vector>
@@ -18,7 +19,7 @@ int main() {
       std::unique_lock grd(mtx);
       arr.push_back(2);
       grd.unlock();
-      printf("outside of lock\n");
+      INFO("outside of lock");
       // grd.lock();
     }
   });

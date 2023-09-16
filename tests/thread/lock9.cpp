@@ -1,3 +1,4 @@
+#include "logger.h"
 #include <chrono>
 #include <mutex>
 #include <thread>
@@ -8,14 +9,14 @@ int main() {
   std::thread t1([&] {
     std::unique_lock grd(mtx, std::defer_lock);
     std::lock_guard grd2(grd);
-    printf("t1 owns the lock\n");
+    INFO("t1 owns the lock");
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   });
 
   std::thread t2([&] {
     std::unique_lock grd(mtx, std::defer_lock);
     std::lock_guard grd2(grd);
-    printf("t2 owns the lock\n");
+    INFO("t2 owns the lock");
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   });
 

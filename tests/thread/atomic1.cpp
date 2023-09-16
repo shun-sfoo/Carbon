@@ -1,6 +1,6 @@
 #include <atomic>
-#include <iostream>
 #include <thread>
+#include "logger.h"
 
 int main() {
   std::atomic<int> counter = 0;
@@ -23,6 +23,6 @@ int main() {
   t1.join();
   t2.join();
 
-  std::cout << counter << std::endl;
+  INFO("{}", counter);
   return 0;
 }

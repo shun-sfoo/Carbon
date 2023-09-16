@@ -1,7 +1,8 @@
-
+#include "logger.h"
 #include <chrono>
 #include <mutex>
 #include <thread>
+
 int main() {
   std::mutex mtx;
   std::thread t1([&] {
@@ -9,9 +10,9 @@ int main() {
     // 之后用grd.owns_lock() 判断是否上锁成功
     std::unique_lock grd(mtx, std::try_to_lock);
     if (grd.owns_lock()) {
-      printf("t1 success\n");
+      INFO("t1 success");
     } else {
-      printf("t1 failed\n");
+      INFO("t1 failed");
       std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
   });
@@ -19,9 +20,9 @@ int main() {
   std::thread t2([&] {
     std::unique_lock grd(mtx, std::try_to_lock);
     if (grd.owns_lock()) {
-      printf("t2 success\n");
+      INFO("t2 success");
     } else {
-      printf("t2 failed\n");
+      INFO("t2 failed");
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   });
