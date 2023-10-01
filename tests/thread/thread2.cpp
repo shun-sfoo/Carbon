@@ -3,6 +3,7 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+using namespace carbon;
 
 class ThreadPool {
 private:
@@ -40,6 +41,8 @@ void myfunc() {
 }
 
 int main() {
+  ONLY_TO_CONSOLE;
+  LOGGER();
   myfunc();
   interact();
   return 0;

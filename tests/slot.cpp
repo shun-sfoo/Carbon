@@ -48,7 +48,7 @@ public:
   void add(char a) { e += a; }
 };
 
-TEST_CASE("Slot", "[event handler 1]") {
+TEST_CASE("Slot", "[event handler]") {
   EventHandler<void, std::tuple<int>, int, char> func([](int a) { e += a; });
   func(1, 'a');
   REQUIRE(e == 1);

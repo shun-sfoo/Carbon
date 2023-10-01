@@ -58,6 +58,7 @@ void myfunc() {
 
 int main() {
   ONLY_TO_CONSOLE;
+  LOGGER();
   myfunc();
   interact();
   for (auto &t : pool) {
