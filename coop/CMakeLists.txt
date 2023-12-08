@@ -8,3 +8,7 @@ endmacro()
 ex(ex1)
 ex(ex2)
 ex(ex3)
+ex(ex4)
+ex(ex5)
+
+add_subdirectory(tdouble)
