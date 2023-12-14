@@ -6,6 +6,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # set(BUILD_TESTING ON)
 
 add_subdirectory(slot)
+add_subdirectory(base)
+add_subdirectory(executable)
 
 find_package(Qt6)
 if(Qt6_FOUND)
