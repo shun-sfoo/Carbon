@@ -1,5 +1,4 @@
-#include "logger.h"
-#include <iostream>
+#include "Logger.h"
 #include <mutex>
 #include <thread>
 #include <vector>

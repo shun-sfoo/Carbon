@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <memory>
 
-namespace base {
+namespace common {
 
 std::string executeCmd(const std::string &cmd) {
   const int bufferSize = 128;
@@ -19,4 +19,4 @@ std::string executeCmd(const std::string &cmd) {
   return result;
 }
 
-} // namespace base
+} // namespace common

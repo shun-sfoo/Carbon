@@ -1,4 +1,4 @@
-#include "logger.h"
+#include "Logger.h"
 #include <condition_variable>
 #include <initializer_list>
 #include <iterator>
@@ -40,8 +40,7 @@ public:
 
   void push_many(std::initializer_list<T> vals) {
     std::unique_lock lck(m_mtx);
-    std::copy(std::move_iterator(vals.begin()), std::move_iterator(vals.end()),
-              std::back_insert_iterator(m_arr));
+    std::copy(std::move_iterator(vals.begin()), std::move_iterator(vals.end()), std::back_insert_iterator(m_arr));
     m_cv.notify_all();
   }
 };

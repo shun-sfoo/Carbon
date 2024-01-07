@@ -1,4 +1,4 @@
-#include "logger.h"
+#include "Logger.h"
 #include <chrono>
 #include <future>
 #include <iostream>
@@ -25,8 +25,7 @@ void interact() {
 int main() {
   // std::async 的第一个参数可以设为 std::launch::deferred,
   // 这时不会创建一个线程来执行
-  std::future<int> fret =
-      std::async(std::launch::deferred, [&] { return download("hello.zip"); });
+  std::future<int> fret = std::async(std::launch::deferred, [&] { return download("hello.zip"); });
   interact();
   // std::shared_future<void> fret
   // auto fret2 = fret; 浅拷贝，共享同一个future对象

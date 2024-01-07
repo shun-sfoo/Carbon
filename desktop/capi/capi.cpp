@@ -6,7 +6,6 @@
 #include <QPainter>
 #include <QScreen>
 #include <QWidget>
-#include <cstddef>
 
 enum class MouseStatus : uint8_t {
   Explore = 0,
@@ -16,9 +15,7 @@ enum class MouseStatus : uint8_t {
 
 class CapiWidget : public QWidget {
 public:
-  explicit CapiWidget(QImage *img) : screenImage(img) {
-    setMouseTracking(true);
-  }
+  explicit CapiWidget(QImage *img) : screenImage(img) { setMouseTracking(true); }
   // TODO: copy assigned constroctor, copy assigned operator
 
   ~CapiWidget() { delete screenImage; }
@@ -95,12 +92,9 @@ public:
       auto winSize = this->size();
       // 比例计算
       int realRectX = capturedRect.x() * picRealSize.width() / winSize.width();
-      int realRectY =
-          capturedRect.y() * picRealSize.height() / winSize.height();
-      int realRectW =
-          capturedRect.width() * picRealSize.width() / winSize.width();
-      int realRectH =
-          capturedRect.height() * picRealSize.height() / winSize.height();
+      int realRectY = capturedRect.y() * picRealSize.height() / winSize.height();
+      int realRectW = capturedRect.width() * picRealSize.width() / winSize.width();
+      int realRectH = capturedRect.height() * picRealSize.height() / winSize.height();
       // 得到实际Rect
       QRect imgRect(realRectX, realRectY, realRectW, realRectH);
       // 2. 从保存的屏幕图像中获取指定区域的图像数据

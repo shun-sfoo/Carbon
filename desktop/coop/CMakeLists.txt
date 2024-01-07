@@ -12,3 +12,4 @@ ex(ex4)
 ex(ex5)
 
 add_subdirectory(tdouble)
+add_subdirectory(conn)

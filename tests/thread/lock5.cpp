@@ -1,5 +1,4 @@
-#include "logger.h"
-#include <cstdio>
+#include "Logger.h"
 #include <mutex>
 
 std::mutex mtx;

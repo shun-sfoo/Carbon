@@ -1,9 +1,9 @@
+#include "Logger.h"
 #include <chrono>
 #include <future>
 #include <iostream>
 #include <string>
 #include <thread>
-#include "logger.h"
 
 int download(std::string file) {
   for (int i = 0; i < 10; i++) {

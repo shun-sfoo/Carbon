@@ -2,14 +2,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-include(FetchContent)
-FetchContent_Declare(
-  Catch2
-  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG v3.4.0)
-
-FetchContent_MakeAvailable(Catch2)
-
 add_executable(slot_test slot.cpp)
 target_link_libraries(slot_test PRIVATE slot Catch2::Catch2WithMain)
 
@@ -55,9 +47,3 @@ my_test(atomic2)
 my_test(atomic3)
 my_test(atomic4)
 my_test(atomic5)
-
-
-
-
-include(Catch)
-catch_discover_tests(slot_test)

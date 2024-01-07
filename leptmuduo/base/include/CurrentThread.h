@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 namespace CurrentThread {
+
 extern thread_local int t_cachedTid; // 保存tid缓冲，避免多次系统调用
 
 void cacheTid();

@@ -1,6 +1,6 @@
+#include "Logger.h"
 #include <atomic>
 #include <thread>
-#include "logger.h"
 
 int main() {
   std::atomic<int> counter = 0;

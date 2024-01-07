@@ -1,7 +1,7 @@
 #pragma once
 
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
-#include "noncopyable.h"
+#include "Noncopyable.h"
 
 #include <atomic>
 #include <spdlog/spdlog.h>

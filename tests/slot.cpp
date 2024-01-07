@@ -5,15 +5,12 @@
 
 TEST_CASE("Slot", "[is_subset_of]") {
   REQUIRE(is_subset_of<std::tuple<>, std::tuple<>>::value);
-  REQUIRE(is_subset_of<std::tuple<int, char>,
-                       std::tuple<int, char, double>>::value);
-  REQUIRE_FALSE(
-      is_subset_of<std::tuple<int, char>, std::tuple<char, double>>::value);
+  REQUIRE(is_subset_of<std::tuple<int, char>, std::tuple<int, char, double>>::value);
+  REQUIRE_FALSE(is_subset_of<std::tuple<int, char>, std::tuple<char, double>>::value);
 }
 
 TEST_CASE("Slot", "[find_next_index]") {
-  REQUIRE(find_next_index<1, int, std::tuple<int, char, double, int>>::value ==
-          3);
+  REQUIRE(find_next_index<1, int, std::tuple<int, char, double, int>>::value == 3);
 }
 
 struct Key {
@@ -22,9 +19,7 @@ struct Key {
 
 TEST_CASE("Slot", "[tuple take1]") {
   int result = 0;
-  std::function<void(int, char, Key)> func = [&](int a, char b, Key key) {
-    result += a + b + key.value;
-  };
+  std::function<void(int, char, Key)> func = [&](int a, char b, Key key) { result += a + b + key.value; };
   std::tuple<int, int, char, int, float, Key> args = {1, 2, 10, 4, 3.0f, Key()};
   TupleTake(func, args);
   REQUIRE(result == 21);
@@ -55,8 +50,7 @@ TEST_CASE("Slot", "[event handler]") {
   EventHandler<void, std::tuple<>, int, char> func1(add);
   func1(1, 'a');
   REQUIRE(e == 2);
-  EventHandler<Button, std::tuple<char>, int, char> func2(new Button,
-                                                          &Button::add);
+  EventHandler<Button, std::tuple<char>, int, char> func2(new Button, &Button::add);
   func2(1, 10);
   REQUIRE(e == 12);
 

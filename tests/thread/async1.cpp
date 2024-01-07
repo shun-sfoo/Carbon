@@ -1,4 +1,4 @@
-#include "logger.h"
+#include "Logger.h"
 #include <chrono>
 #include <future>
 #include <iostream>
@@ -29,9 +29,8 @@ int main() {
     if (stat == std::future_status::ready) {
       INFO("Future is ready!!")
       break;
-    } else { // std::future_status::timeout
-      INFO("Future not ready!!")
-    }
+    } // std::future_status::timeout
+    INFO("Future not ready!!")
   }
   int ret = fret.get();
   INFO("Download result: {}", ret);

@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 
-namespace base {
+namespace common {
 
 std::string executeCmd(const std::string &cmd);
 
-}
+} // namespace common
