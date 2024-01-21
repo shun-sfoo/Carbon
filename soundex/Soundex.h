@@ -9,10 +9,10 @@ const std::string NotADigit{"*"};
 class Soundex {
 public:
   std::string encode(const std::string &word) const {
-    return zeroPad(upperFont(head(word)) + encodedDigits(tail(word)));
+    return zeroPad(upperFont(head(word)) + tail(encodedDigits(word)));
   }
 
-  std::string encodeDigit(char letter) const {
+  std::string encodedDigit(char letter) const {
     const std::unordered_map<char, std::string> encodings{
         {'b', "1"}, {'f', "1"}, {'p', "1"}, {'v', "1"}, //
         {'c', "2"}, {'g', "2"}, {'j', "2"}, {'k', "2"}, //
@@ -35,17 +35,29 @@ private:
 
   std::string head(const std::string &word) const { return word.substr(0, 1); }
 
-  std::string encodedDigits(const std::string &word) const {
-    std::string encoding;
-    for (auto letter : word) {
-      if (isComplete(encoding)) {
-        break;
-      }
-      auto digit = encodeDigit(letter);
-      if (digit != NotADigit && digit != lastDigit(encoding)) {
-        encoding += encodeDigit(letter);
+  void encodeHead(std::string &encoding, const std::string &word) const { encoding += encodedDigit(word.front()); }
+
+  void encodeTail(std::string &encoding, const std::string &word) const {
+    for (auto i = 1u; i < word.length(); i++) {
+      if (!isComplete(encoding)) {
+        encodeLetter(encoding, word[i], word[i - 1]);
       }
     }
+  }
+
+  void encodeLetter(std::string &encoding, char letter, char lastLetter) const {
+    auto digit = encodedDigit(letter);
+    if (digit != NotADigit && (digit != lastDigit(encoding) || isVowel(lastLetter))) {
+      encoding += digit;
+    }
+  }
+
+  bool isVowel(char letter) const { return std::string("aeiouy").find(lower(letter)) != std::string::npos; }
+
+  std::string encodedDigits(const std::string &word) const {
+    std::string encoding;
+    encodeHead(encoding, word);
+    encodeTail(encoding, word);
     return encoding;
   }
 
@@ -58,7 +70,7 @@ private:
 
   std::string tail(const std::string &word) const { return word.substr(1); }
 
-  bool isComplete(const std::string &encoding) const { return encoding.length() == MaxCodeLength - 1; }
+  bool isComplete(const std::string &encoding) const { return encoding.length() == MaxCodeLength; }
 
   std::string zeroPad(const std::string &word) const {
     auto zerosNeeded = MaxCodeLength - word.length();
