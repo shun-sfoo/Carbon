@@ -18,7 +18,7 @@ int main() {
   servAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
   servAddr.sin_port = htons(8888);
 
-  errif(connect(sockFd, reinterpret_cast<sockaddr *>(&servAddr), sizeof(servAddr)), "socket connect error");
+  errif(connect(sockFd, reinterpret_cast<sockaddr *>(&servAddr), sizeof(servAddr)) == -1, "socket connect error");
 
   while (true) {
     char buf[BUFFER_SIZE];                                // 定义缓冲区
