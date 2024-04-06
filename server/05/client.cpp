@@ -1,3 +1,4 @@
+
 #include "InetAddress.h"
 #include "Socket.h"
 #include "util.h"
@@ -11,8 +12,8 @@ constexpr int BUFFER_SIZE = 1024;
 
 int main() {
   Socket *clntSocket = new Socket();
-  InetAddress *clntAddr = new InetAddress(clntSocket->getFd(), "127.0.0.1", 8888);
-  clntAddr->connect();
+  InetAddress *clntAddr = new InetAddress("127.0.0.1", 8888);
+  clntSocket->connect(clntAddr);
 
   while (true) {
     char buf[BUFFER_SIZE]; // 在这个版本，buf大小必须大于或等于服务器端buf大小，不然会出错，想想为什么？

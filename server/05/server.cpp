@@ -1,3 +1,4 @@
+#include "Channel.h"
 #include "Epoll.h"
 #include "InetAddress.h"
 #include "Socket.h"
@@ -35,33 +36,35 @@ void handleReadEvent(int sockfd) {
 } // namespace
 
 int main() {
-  Socket *servSocket = new Socket();
-  InetAddress *addr = new InetAddress(servSocket->getFd(), "127.0.0.1", 8888);
-  addr->bind();
-  servSocket->listen();
-
+  Socket *servSock = new Socket();
+  InetAddress *servAddr = new InetAddress("127.0.0.1", 8888);
+  servSock->bind(servAddr);
+  servSock->listen();
   Epoll *ep = new Epoll();
-  servSocket->setNonBlocking();
-  ep->addFd(servSocket->getFd(), EPOLLIN | EPOLLET);
+  servSock->setNonBlocking();
+  Channel *servChannel = new Channel(ep, servSock->getFd());
+  servChannel->enableReading();
   while (true) {
-    std::vector<epoll_event> events = ep->poll();
-    int nFds = events.size();
+    std::vector<Channel *> activeChannels = ep->poll();
+    int nFds = activeChannels.size();
     for (int i = 0; i < nFds; ++i) {
-      if (events[i].data.fd == servSocket->getFd()) {                 // 新客户断连接
-        InetAddress *clntAddr = new InetAddress(servSocket->getFd()); // 会发生内存泄漏，没有delete
-        Socket *clntSock = new Socket(clntAddr->accpet());            // 会发生内存泄漏，没有delete
+      int chfd = activeChannels[i]->getFd();
+      if (chfd == servSock->getFd()) {                             // 新客户端连接
+        InetAddress *clntAddr = new InetAddress();                 // 会发生内存泄露！没有delete
+        Socket *clntSock = new Socket(servSock->accept(clntAddr)); // 会发生内存泄露！没有delete
         printf("new client fd %d! IP: %s Port: %d\n", clntSock->getFd(), inet_ntoa(clntAddr->m_sockAddr.sin_addr),
                ntohs(clntAddr->m_sockAddr.sin_port));
         clntSock->setNonBlocking();
-        ep->addFd(clntSock->getFd(), EPOLLIN | EPOLLET);
-      } else if (events[i].events & EPOLLIN) { // 可读事件
-        handleReadEvent(events[i].data.fd);
-      } else {
-        printf("something else happend\n");
+        Channel *clntChannel = new Channel(ep, clntSock->getFd());
+        clntChannel->enableReading();
+      } else if (activeChannels[i]->getRevents() & EPOLLIN) { // 可读事件
+        handleReadEvent(activeChannels[i]->getFd());
+      } else { // 其他事件，之后的版本实现
+        printf("something else happened\n");
       }
     }
   }
-  delete ep;
-  delete addr;
-  delete servSocket;
+  delete servSock;
+  delete servAddr;
+  return 0;
 }
