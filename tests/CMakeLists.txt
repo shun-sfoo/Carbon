@@ -5,9 +5,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(slot_test slot.cpp)
 target_link_libraries(slot_test PRIVATE slot Catch2::Catch2WithMain)
 
-add_executable(log_test log_test.cpp)
-target_link_libraries(log_test PRIVATE common)
-
 add_executable(ptm learn/ptm.cpp)
 add_executable(ptm1 learn/ptm1.cpp)
 add_executable(ptm2 learn/ptm2.cpp)

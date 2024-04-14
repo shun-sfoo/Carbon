@@ -1,3 +1,6 @@
 set(CMAKE_CXX_STANDARD 20)
-# set(CMAKE_CXX_EXTENSIONS OFF)
-add_executable(log main.cpp)
+set(CMAKE_CXX_EXTENSIONS OFF)
+add_library(MiniLog INTERFACE)
+target_include_directories(MiniLog INTERFACE include)
+add_executable(logtest logtest.cpp)
+target_link_libraries(logtest PRIVATE MiniLog)
